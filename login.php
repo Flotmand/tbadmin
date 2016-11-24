@@ -79,7 +79,7 @@
                 //Resetter userId-cookien, så man bliver logget ud når loader login.php
               setCookie("userId", "", -1);
               console.log("userId-cookie " + getCookie("userId"));
-              
+
                  $("#loginForm").submit(function(event) {
 
                     $.ajax({
@@ -93,13 +93,17 @@
                             console.log(obj);
                             //console.log(jQuery.isEmptyObject(obj));
                             if ( jQuery.isEmptyObject(obj) == false) {
+                                if (obj.admin == 1) {
+                                    setCookie("userId", obj.id, 1);
 
-                                setCookie("userId", obj.id, 1);
+                                    //document.cookie = "userID=" + obj.id;
+                                    console.log("Cookie userId sat: " + getCookie("userId"));
 
-                                //document.cookie = "userID=" + obj.id;
-                                console.log("Cookie userId sat: " + getCookie("userId"));
-
-                                window.location.replace("./index.php");
+                                    window.location.replace("./index.php");
+                                }
+                                else {
+                                  alert("Din profil er ikke angivet som værende administrator");
+                                }
                             }
                             else {
                               alert("Email og/eller adgangskoden er forkert")
