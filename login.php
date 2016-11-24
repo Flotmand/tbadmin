@@ -14,16 +14,16 @@
     <body>
 
         <div class="container bgcWhite">
-            <div class="row"> 
+            <div class="row">
                 <div class="col-md-6 col-md-offset-3">
-                    <img src="./images/logo.png" width="100%" style=" margin-top: 40px; " /> 
+                    <img src="./images/logo.png" width="100%" style=" margin-top: 40px; " />
                 </div>
 
             </div>
             <div class="row">
                 <div class="col-md-6 col-md-offset-3 text-center">
                     <h1>Login</h1>
-                </div> 
+                </div>
             </div>
             <form id="loginForm" action="">
                 <div class="col-md-6 col-md-offset-3" style="margin-bottom: 40px;">
@@ -36,18 +36,18 @@
                     <div class="checkbox">
                         <label><input type="checkbox">Husk mig</label>
                     </div>
-                    
+
                     <a data-toggle="modal" data-target="#myModal"> Glemt kodeord </a>
                     </br>
                     <button id="loginBtn" type="submit" class="btn btn-default">LOGIN</button>
                 </div>
             </form>
             <div id="id01">
-            
+
             </div>
         </div>
 
-        
+
 
         <!-- Modal -->
         <div id="myModal" class="modal fade" role="dialog">
@@ -62,7 +62,7 @@
                             <div class="form-group">
                                 <span class="help-block">Skriv din emailadresse og du vil modtage en email med link til at lave et nyt kodeord</span>
                                 <input type="email" class="form-control" id="email" placeholder="EMAIL">
-                                
+
                             </div>
                             <button type="submit" class="btn btn-default">Send</button>
                         </form>
@@ -70,20 +70,18 @@
                 </div>
             </div>
         </div>
-        
 
 
-        
+
+
          <script>
-
-           
-
             $(document).ready(function(){
-
-            
-
+                //Resetter userId-cookien, så man bliver logget ud når loader login.php
+              setCookie("userId", "", -1);
+              console.log("userId-cookie " + getCookie("userId"));
+              
                  $("#loginForm").submit(function(event) {
-                     
+
                     $.ajax({
                         method: "POST",
                         url: "http://pba.tese.dk/api/user/login",
@@ -98,28 +96,21 @@
 
                                 setCookie("userId", obj.id, 1);
 
-                                //document.cookie = "userID=" + obj.id; 
-                                console.log("Cookie userId sat: " + getCookie("userId"));   
-                                
+                                //document.cookie = "userID=" + obj.id;
+                                console.log("Cookie userId sat: " + getCookie("userId"));
+
                                 window.location.replace("./index.php");
                             }
-                            
-                            
+                            else {
+                              alert("Email og/eller adgangskoden er forkert")
+                            }
                         });
 
                     return false;
                 });
-
-                
-
-                
             });
-
-            
-            
         </script>
 
-       
+
     </body>
 </html>
-

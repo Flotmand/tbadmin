@@ -9,9 +9,16 @@
 
         <link rel="stylesheet" href="styles.css">
         <script src="./js.js"></script>
+
         <script>
+              // Checks if a user is logged in
+            if ( jQuery.isEmptyObject(getCookie("userId")) ) {
+                window.location.replace("./login.php");
+            }
+
             // Tjekker om der er sat en cookie med userId
-            console.log("hej hej " + getCookie("userId"));  
+            console.log("userId-cookie " + getCookie("userId"));
+
         </script>
     </head>
     <body>
@@ -21,7 +28,7 @@
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
-                    <span class="icon-bar"></span> 
+                    <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="./index.php">Tinderbox 2017</a>
                 </div>
