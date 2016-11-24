@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script>
+            $.ajax({
+                method: "POST",
+                url: "/api/user/login/",
+                data: {
+                    email: "u@u.dk",
+                    password: "u1123"
+                }
+            })
+                    .done(function (obj) {
+                        console.log(obj);
+                    });
+        </script>
+    </head>
+    <body>
+
+        <h2>This is a heading</h2>
+
+        <div id="div1"></div>
+
+        <button>Click me</button>
+
+    </body>
+</html>
