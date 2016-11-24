@@ -8,7 +8,11 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
         <link rel="stylesheet" href="styles.css">
-
+        <script src="./js.js"></script>
+        <script>
+            // Tjekker om der er sat en cookie med userId
+            console.log("hej hej " + getCookie("userId"));  
+        </script>
     </head>
     <body>
         <nav class="navbar navbar-inverse">

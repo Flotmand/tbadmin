@@ -9,9 +9,7 @@
 
         <link rel="stylesheet" href="styles.css">
 
-
-        
-
+        <script src="./js.js"></script>
     </head>
     <body>
 
@@ -25,9 +23,9 @@
             <div class="row">
                 <div class="col-md-6 col-md-offset-3 text-center">
                     <h1>Login</h1>
-                </div>
+                </div> 
             </div>
-            <form method="post" action="./index.php">
+            <form id="loginForm" action="">
                 <div class="col-md-6 col-md-offset-3" style="margin-bottom: 40px;">
                     <div class="form-group">
                         <input type="email" class="form-control" id="email" placeholder="EMAIL">
@@ -41,7 +39,7 @@
                     
                     <a data-toggle="modal" data-target="#myModal"> Glemt kodeord </a>
                     </br>
-                    <button type="submit" class="btn btn-default">LOGIN</button>
+                    <button id="loginBtn" type="submit" class="btn btn-default">LOGIN</button>
                 </div>
             </form>
             <div id="id01">
@@ -73,17 +71,52 @@
             </div>
         </div>
         
+
+
+        
          <script>
-            $.ajax({
-                method: "POST",
-                url: "http://pba.tese.dk/api/user/login",
-                data: {
-                    email: "a@a.dk",
-                    password: "123456"
-                }
-            }).done(function (obj) {
-                        console.log(obj.first_name);
-                    });
+
+           
+
+            $(document).ready(function(){
+
+            
+
+                 $("#loginForm").submit(function(event) {
+                     
+                    $.ajax({
+                        method: "POST",
+                        url: "http://pba.tese.dk/api/user/login",
+                        data: {
+                            email: $('#email').val(),
+                            password: $('#password').val()
+                        }
+                    }).done(function (obj) {
+                            console.log(obj);
+                            //console.log(jQuery.isEmptyObject(obj));
+                            if ( jQuery.isEmptyObject(obj) == false) {
+
+                                setCookie("userId", obj.id, 1);
+
+                                //document.cookie = "userID=" + obj.id; 
+                                console.log("Cookie userId sat: " + getCookie("userId"));   
+                                
+                                window.location.replace("./index.php");
+                            }
+                            
+                            
+                        });
+
+                    return false;
+                });
+
+                
+
+                
+            });
+
+            
+            
         </script>
 
        
