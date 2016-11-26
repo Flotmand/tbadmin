@@ -1,6 +1,6 @@
 <?php require 'header.php'; ?>
 
-        <div class="container bgcWhite">
+        <div class="container bgcWhite" id="putHere">
             <div class="row" id="newFAQ">
                 <div class="col-md-12">
                     <h3>Tilføj nyt punkt</h3>
@@ -36,18 +36,9 @@
                     //console.log(obj[i].question);
                       // var x skal hjælpe med at holde styr på hvornår der laves en ny row
                     if ( x == 1) {
-                      /*rowIntro = '<div class="row">';
-                      rowOutro = "";*/
-
                       out += '<div class="row">';
-                      //x = 2;
                     }
-                    /*else {
-                      rowIntro = "";
-                      rowOutro = '</div>';
-                      x = 1;
-                      console.log("Hej hej Else!");
-                    }*/
+
                     out += '<div class="col-md-6"><div class="jumbotron"><h3>' + obj[i].question + '</h3><p>' + obj[i].answer + '</p><button type="submit" class="btn btn-default">Rediger</button></div></div>';
 
                     if ( x == 2 || jQuery.isEmptyObject(obj[i+1]) == true) {
@@ -59,7 +50,7 @@
                     }
                 }
 
-                $(".container").append(out);
+                $("#putHere").append(out);
             });
         </script>
 
