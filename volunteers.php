@@ -83,16 +83,11 @@
               method: "GET",
               url: "http://pba.tese.dk/api/user"
           }).done(function (obj) {
-                //console.log("Teams: " + teams);
-
                 var i;
                 for ( i = 0; i < obj.length; i++) {
-                    //console.log("User: " + obj[i].first_name);
-
-
                     var out = "";
 
-                    //out += '<tr><td><div class="checkbox"><label><input type="checkbox" value=""></label></div></td></td><td>' + obj[i].first_name + ' ' + obj[i].last_name +'</td><td>' + obj[i].mobile + '</td><td>' + obj[i].email + '</td><td>' + obj[i].dob + '</td>';
+                    out += '<tr><td><div class="checkbox"><label><input type="checkbox" value=""></label></div></td></td><td>' + obj[i].first_name + ' ' + obj[i].last_name +'</td><td>' + obj[i].mobile + '</td><td>' + obj[i].email + '</td><td>' + obj[i].dob + '</td>';
 
                       // If admin and active OR if regular user and active
                     if ( obj[i].admin == 1 && obj[i].activated == 1 || obj[i].admin == 0 && obj[i].activated == 1 ) {
@@ -100,15 +95,11 @@
                           // Loops through the teams
                         var x;
                         for ( x = 0; x < teams.length; x++) {
-
+                              // When the users team_id matches an id from the team-table the team-title is added to the string
                             if ( obj[i].team_id == teams[x].id ) {
-                                console.log("Team name er: " + teams[x].title);
-
-                                out += '<tr><td><div class="checkbox"><label><input type="checkbox" value=""></label></div></td></td><td>' + obj[i].first_name + ' ' + obj[i].last_name +'</td><td>' + obj[i].mobile + '</td><td>' + obj[i].email + '</td><td>' + obj[i].dob + '</td><td>' + teams[x].title + '</td></tr>';
-
-                                //out += '<td>' + teams[x].title + '</td></tr>';
+                              out += '<td>' + teams[x].title + '</td></tr>';
                             }
-                            
+
                         }
 
                           // If admin and active
@@ -120,14 +111,8 @@
                             $("#activeUsers").append(out);
                         }
                     }
-                      // If regular user and active
-                    /*else if ( obj[i].admin == 0 && obj[i].activated == 1  ) {
-                        out += '<td><div class="form-group form-group-sm"><select class="form-control teamSelect" id="selUser'+ obj[i].id +'"</select></div></td></tr>';
-                        $("#activeUsers").append(out);
-                    }*/
                     else {
-                        out += '<tr><td><div class="checkbox"><label><input type="checkbox" value=""></label></div></td></td><td>' + obj[i].first_name + ' ' + obj[i].last_name +'</td><td>' + obj[i].mobile + '</td><td>' + obj[i].email + '</td><td>' + obj[i].dob + '</td></tr>';
-                        //out += '</tr>';
+                        out += '</tr>';
                         $("#newUsers").append(out);
                     }
                 }
