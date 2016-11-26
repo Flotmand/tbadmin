@@ -87,7 +87,7 @@
                 for ( i = 0; i < obj.length; i++) {
                     var out = "";
 
-                    out += '<tr><td><div class="checkbox"><label><input type="checkbox" value=""></label></div></td></td><td>' + obj[i].first_name + ' ' + obj[i].last_name +'</td><td>' + obj[i].mobile + '</td><td>' + obj[i].email + '</td><td>' + obj[i].dob + '</td>';
+                    out += '<tr><td><div class="checkbox"><label><input type="checkbox" name="userId" value="'+ obj[i].id +'"></label></div></td></td><td>' + obj[i].first_name + ' ' + obj[i].last_name +'</td><td>' + obj[i].mobile + '</td><td>' + obj[i].email + '</td><td>' + obj[i].dob + '</td>';
 
                       // If admin and active OR if regular user and active
                     if ( obj[i].admin == 1 && obj[i].activated == 1 || obj[i].admin == 0 && obj[i].activated == 1 ) {
