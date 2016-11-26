@@ -1,62 +1,64 @@
 <?php require 'header.php'; ?>
         <div class="container bgcWhite">
-            <h2>Nye frivillige</h2>
-            <table class="table table-striped table-hover">
-                <thead>
-                <tr>
-                    <th>Vælg</th>
-                    <th>Navn</th>
-                    <th>Telefon</th>
-                    <th>Email</th>
-                    <th>Fødselsdag</th>
-                </tr>
-                </thead>
-                <tbody id="newUsers" class="collapse">
+            <div class="table-responsive">
+                <div id="newVolunteers">
+                    <h2>Nye frivillige</h2>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <th>Vælg</th>
+                            <th>Navn</th>
+                            <th>Telefon</th>
+                            <th>Email</th>
+                            <th>Fødselsdag</th>
+                        </tr>
+                        </thead>
+                        <tbody id="newUsers" class="collapse">
+                        </tbody>
+                    </table>
+                    <button data-toggle="collapse" data-target="#newUsers">Collapsible</button>
+                </div>
+                <div id="activeVolunteers">
+                    <h2>Aktive frivillige</h2>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <th>Vælg</th>
+                            <th>Navn</th>
+                            <th>Telefon</th>
+                            <th>Email</th>
+                            <th>Fødselsdag</th>
+                            <th>Hold</th>
+                        </tr>
+                        </thead>
+                        <tbody id="activeUsers" class="collapse">
+                        </tbody>
+                    </table>
+                    <button data-toggle="collapse" data-target="#activeUsers">Collapsible</button>
+                </div>
+                <div id="admins">
+                    <h2>Administratorer</h2>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <th>Vælg</th>
+                            <th>Navn</th>
+                            <th>Telefon</th>
+                            <th>Email</th>
+                            <th>Fødselsdag</th>
+                            <th>Hold</th>
+                        </tr>
+                        </thead>
+                        <tbody id="administrator" class="collapse">
 
-                </tbody>
-            </table>
-            <button data-toggle="collapse" data-target="#newUsers">Collapsible</button>
-
-
-            <h2>Aktive frivillige</h2>
-            <table class="table table-striped table-hover">
-                <thead>
-                <tr>
-                    <th>Vælg</th>
-                    <th>Navn</th>
-                    <th>Telefon</th>
-                    <th>Email</th>
-                    <th>Fødselsdag</th>
-                    <th>Hold</th>
-                </tr>
-                </thead>
-                <tbody id="activeUsers" class="collapse">
-
-                </tbody>
-            </table>
-            <button data-toggle="collapse" data-target="#activeUsers">Collapsible</button>
-
-            <h2>Administratorer</h2>
-            <table class="table table-striped table-hover">
-                <thead>
-                <tr>
-                    <th>Vælg</th>
-                    <th>Navn</th>
-                    <th>Telefon</th>
-                    <th>Email</th>
-                    <th>Fødselsdag</th>
-                    <th>Hold</th>
-                </tr>
-                </thead>
-                <tbody id="administrator" class="collapse">
-
-                </tbody>
-            </table>
-            <button data-toggle="collapse" data-target="#administrator">Collapsible</button>
-
-
-
+                        </tbody>
+                    </table>
+                    <button data-toggle="collapse" data-target="#administrator">Collapsible</button>
+                </div>
+            </div>
         </div>
+
+
         <script>
 
         var teams = [];
@@ -84,6 +86,11 @@
               url: "http://pba.tese.dk/api/user"
           }).done(function (obj) {
                 var i;
+
+                var countNewUsers = 0;
+                var countActiveUsers = 0;
+                var countAdmins = 0;
+
                 for ( i = 0; i < obj.length; i++) {
                     var out = "";
 
@@ -105,16 +112,31 @@
                           // If admin and active
                         if ( obj[i].admin == 1 && obj[i].activated == 1 ) {
                             $("#administrator").append(out);
+                            countAdmins++;
                         }
                           // If regular user and active
                         else if ( obj[i].admin == 0 && obj[i].activated == 1 ) {
                             $("#activeUsers").append(out);
+                            countActiveUsers++;
                         }
                     }
                     else {
                         out += '</tr>';
                         $("#newUsers").append(out);
+                        countNewUsers++;
                     }
+                }
+
+                if ( countNewUsers == 0 ) {
+                    $("#newVolunteers").remove();
+                }
+
+                if ( countActiveUsers == 0 ) {
+                    $("#activeVolunteers").remove();
+                }
+
+                if ( countAdmins == 0 ) {
+                    $("#admins").remove();
                 }
             });
 
