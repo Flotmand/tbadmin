@@ -4,6 +4,7 @@
             <table class="table table-striped table-hover">
                 <thead>
                 <tr>
+                    <th>Vælg</th>
                     <th>Navn</th>
                     <th>Telefon</th>
                     <th>Email</th>
@@ -21,6 +22,7 @@
             <table class="table table-striped table-hover">
                 <thead>
                 <tr>
+                    <th>Vælg</th>
                     <th>Navn</th>
                     <th>Telefon</th>
                     <th>Email</th>
@@ -38,6 +40,7 @@
             <table class="table table-striped table-hover">
                 <thead>
                 <tr>
+                    <th>Vælg</th>
                     <th>Navn</th>
                     <th>Telefon</th>
                     <th>Email</th>
@@ -56,7 +59,7 @@
         </div>
         <script>
 
-        var lars = [];
+        var teams = [];
         $.ajax({
             async: false,
             method: "GET",
@@ -68,7 +71,7 @@
             for ( i = 0; i < obj.length; i++) {
                 //console.log(obj[i].title);
 
-                lars.push(obj[i]);
+                teams.push(obj[i]);
 
                 out = '<option>' + obj[i].title + '</option>';
 
@@ -80,24 +83,51 @@
               method: "GET",
               url: "http://pba.tese.dk/api/user"
           }).done(function (obj) {
-                console.log("lars: " + lars);
+                //console.log("Teams: " + teams);
 
                 var i;
                 for ( i = 0; i < obj.length; i++) {
-                    console.log("User: " + obj[i].first_name);
+                    //console.log("User: " + obj[i].first_name);
+
 
                     var out = "";
 
-                    out += '<tr></td><td>' + obj[i].first_name + ' ' + obj[i].last_name +'</td><td>' + obj[i].mobile + '</td><td>' + obj[i].email + '</td><td>' + obj[i].dob + '</td>' + '<td><div class="form-group form-group-sm"><select class="form-control teamSelect" id="selUser'+ obj[i].id +'"</select></div></td></tr>';
-                      // If admin and active
-                    if ( obj[i].admin == 1 && obj[i].activated == 1 ) {
-                        $("#administrator").append(out);
+                    //out += '<tr><td><div class="checkbox"><label><input type="checkbox" value=""></label></div></td></td><td>' + obj[i].first_name + ' ' + obj[i].last_name +'</td><td>' + obj[i].mobile + '</td><td>' + obj[i].email + '</td><td>' + obj[i].dob + '</td>';
+
+                      // If admin and active OR if regular user and active
+                    if ( obj[i].admin == 1 && obj[i].activated == 1 || obj[i].admin == 0 && obj[i].activated == 1 ) {
+
+                          // Loops through the teams
+                        var x;
+                        for ( x = 0; x < teams.length; x++) {
+
+                            if ( obj[i].team_id == teams[x].id ) {
+                                console.log("Team name er: " + teams[x].title);
+
+                                out += '<tr><td><div class="checkbox"><label><input type="checkbox" value=""></label></div></td></td><td>' + obj[i].first_name + ' ' + obj[i].last_name +'</td><td>' + obj[i].mobile + '</td><td>' + obj[i].email + '</td><td>' + obj[i].dob + '</td><td>' + teams[x].title + '</td></tr>';
+
+                                //out += '<td>' + teams[x].title + '</td></tr>';
+                            }
+                            
+                        }
+
+                          // If admin and active
+                        if ( obj[i].admin == 1 && obj[i].activated == 1 ) {
+                            $("#administrator").append(out);
+                        }
+                          // If regular user and active
+                        else if ( obj[i].admin == 0 && obj[i].activated == 1 ) {
+                            $("#activeUsers").append(out);
+                        }
                     }
                       // If regular user and active
-                    else if ( obj[i].admin == 0 && obj[i].activated == 1  ) {
+                    /*else if ( obj[i].admin == 0 && obj[i].activated == 1  ) {
+                        out += '<td><div class="form-group form-group-sm"><select class="form-control teamSelect" id="selUser'+ obj[i].id +'"</select></div></td></tr>';
                         $("#activeUsers").append(out);
-                    }
+                    }*/
                     else {
+                        out += '<tr><td><div class="checkbox"><label><input type="checkbox" value=""></label></div></td></td><td>' + obj[i].first_name + ' ' + obj[i].last_name +'</td><td>' + obj[i].mobile + '</td><td>' + obj[i].email + '</td><td>' + obj[i].dob + '</td></tr>';
+                        //out += '</tr>';
                         $("#newUsers").append(out);
                     }
                 }
