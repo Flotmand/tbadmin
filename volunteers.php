@@ -16,7 +16,7 @@
                         <tbody id="newUsers" class="collapse">
                         </tbody>
                     </table>
-                    <button data-toggle="collapse" data-target="#newUsers" id="newBtn">Åben</button>
+                    <button type="button" data-toggle="collapse" data-target="#newUsers" id="newBtn">Åben</button>
                 </div>
                 <div id="activeVolunteers">
                     <h2>Aktive frivillige</h2>
@@ -34,7 +34,7 @@
                         <tbody id="activeUsers" class="collapse">
                         </tbody>
                     </table>
-                    <button data-toggle="collapse" data-target="#activeUsers" id="activeBtn">Åben</button>
+                    <button type="button" data-toggle="collapse" data-target="#activeUsers" id="activeBtn" class="btn btn-default">Åben</button>
                 </div>
                 <div id="admins">
                     <h2>Administratorer</h2>
@@ -53,9 +53,21 @@
 
                         </tbody>
                     </table>
-                    <button data-toggle="collapse" data-target="#administrator" id="adminBtn">Åben</button>
+                    <button type="button" data-toggle="collapse" data-target="#administrator" id="adminBtn" class="btn btn-default">Åben</button>
                 </div>
             </div>
+
+            <div class="row">
+              <div class="col-md-12">
+                  <div class="form-group">
+                      <h2>Sæt valgte frivillige på et hold</h2>
+                      <select class="form-control" id="team">
+                      </select>
+                      <button type="button" id="saveTeamstoUsersBtn" class="btn btn-default" class="btn btn-default">Gem</button>
+                  </div>
+              </div>
+            </div>
+
         </div>
 
 
@@ -64,7 +76,7 @@
 
 
 
-
+          // CALL TO GET THE TEAM DATA
         var teams = [];
         $.ajax({
             async: true,
@@ -73,16 +85,17 @@
         }).done(function (obj) {
             var i;
             for ( i = 0; i < obj.length; i++) {
-
+                  // var teams is being used i the "user"-call
                 teams.push(obj[i]);
 
-                //out = '<option>' + obj[i].title + '</option>';
-
-                //$(".teamSelect").append(out);
+                  // Creates the <select>-box in the bottom of the page
+                var optionsOut = '<option value="' + obj[i].id + '">' + obj[i].title + '</option>';
+                $("#team").append(optionsOut);
             }
         });
-
+            // THE CALL TO GET THE USER DATA
           $.ajax({
+              //async: false,
               method: "GET",
               url: "http://pba.tese.dk/api/user"
           }).done(function (obj) {
@@ -114,88 +127,109 @@
                         if ( obj[i].admin == 1 && obj[i].activated == 1 ) {
                             $("#administrator").append(out);
                             countAdmins++;
-                        }
-                          // If regular user and active
-                        else if ( obj[i].admin == 0 && obj[i].activated == 1 ) {
+                        } else if ( obj[i].admin == 0 && obj[i].activated == 1 ) {
                             $("#activeUsers").append(out);
                             countActiveUsers++;
                         }
-                    }
-                    else {
+                    } else {
                         out += '</tr>';
                         $("#newUsers").append(out);
                         countNewUsers++;
                     }
                 }
 
+
                 if ( countNewUsers == 0 ) {
                     $("#newVolunteers").remove();
-                }
-                  else {
+                } else {
                     $("#newUsers").toggleClass('in');
                   }
 
                 if ( countActiveUsers == 0 ) {
                     $("#activeVolunteers").remove();
-                }
-                  else if ( countNewUsers == 0) {
+                } else if ( countNewUsers == 0) {
                     $("#activeUsers").toggleClass('in');
                   }
 
                 if ( countAdmins == 0 ) {
                     $("#admins").remove();
-                }
-                else if ( countNewUsers == 0 && countActiveUsers == 0 ) {
+                } else if ( countNewUsers == 0 && countActiveUsers == 0 ) {
                   $("#administrator").toggleClass('in');
                 }
             });
 
+            $(document).ready(function(){
+                // NOTE Three identical functions that check if a tablebody is open or closed and changes the button text accordingly
+                $('#adminBtn').click(function () {
+                    var $this = $(this);
+                    if($('#administrator').hasClass('in')){
+                        $this.text('Åben');
+                    } else {
+                        $this.text('Luk');
+                    }
+                });
 
+                $('#activeBtn').click(function () {
+                    var $this = $(this);
+                    if($('#activeUsers').hasClass('in')){
+                        $this.text('Åben');
+                    } else {
+                        $this.text('Luk');
+                    }
+                });
 
-            // NOTE Three identical functions that check if a tablebody is open or closed and changes the button text accordingly
-            $('#adminBtn').click(function () {
-                var $this = $(this);
-                if($('#administrator').hasClass('in')){
-                    $this.text('Åben');
-                } else {
-                    $this.text('Luk');
-                }
+                $('#newBtn').click(function () {
+                  var $this = $(this);
+                  if($('#newUsers').hasClass('in')){
+                      $this.text('Åben');
+                  } else {
+                      $this.text('Luk');
+                  }
+                });
+
+                /* NOTE Kan ikke få den her til at virke i click-funktioner
+                function openCloseBtn( btnId, divCollapse ) {
+                    var btn = $(btnId);
+
+                    if ( $(divCollapse).hasClass('in')) {
+                        btn.text('Åben');
+                        console.log("Hej lars");
+                    } else {
+                        btn.text('Luk');
+                    }
+                } */
             });
 
-            $('#activeBtn').click(function () {
-                var $this = $(this);
-                if($('#activeUsers').hasClass('in')){
-                    $this.text('Åben');
-                } else {
-                    $this.text('Luk');
-                }
-            });
-
-            $('#newBtn').click(function () {
-              var $this = $(this);
-              if($('#newUsers').hasClass('in')){
-                  $this.text('Åben');
-              } else {
-                  $this.text('Luk');
-              }
-            });
-
-            /* NOTE Kan ikke få den her til at virke i click-funktioner
-            function openCloseBtn( btnId, divCollapse ) {
-                var btn = $(btnId);
-
-                if ( $(divCollapse).hasClass('in')) {
-                    btn.text('Åben');
-                    console.log("Hej lars");
-                } else {
-                    btn.text('Luk');
-                }
-            } */
 
 
-
-              // the function in here only runs when a ajax-call to the specified url is complete
+              // the functions in here only runs when a ajax-call to the specified url is complete
             $( document ).ajaxComplete(function( event, xhr, settings ) {
+
+                  // Creates an array with selected users ID's
+                var selectedUsers = new Array();
+                  // When a change is registred to a checkbox the selected userId is puched to the array
+                $(":checkbox").change(function(){
+                      // Check if the checkbox is checked or unchecked and either adds or removed the userId from the array
+                    if ( $(this).is( ":checked" ) ) {
+                        selectedUsers.push($(this).val());
+                    } else {
+                        var index = selectedUsers.indexOf($(this).val());
+                        if (index > -1) {
+                            selectedUsers.splice(index, 1);
+                        }
+                    }
+
+                    // NOTE the selected users are here
+                    console.log(selectedUsers);
+
+                });
+
+                  // TODO her gemmes hold-id'et. Kør API kaldet i denne function hvor selectedUsers gemmes sammen med hold-idet
+                $("#saveTeamstoUsersBtn").click(function() {
+                    console.log($(team).val());
+                })
+
+
                 if ( settings.url === "http://pba.tese.dk/api/user" ) {
                     if( $('#newUsers').hasClass('in') ){
                         $('#newBtn').text('Luk');
@@ -209,6 +243,8 @@
 
                 }
             });
+
+
         </script>
 
 
