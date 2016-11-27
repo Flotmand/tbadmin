@@ -16,7 +16,7 @@
                         <tbody id="newUsers" class="collapse">
                         </tbody>
                     </table>
-                    <button data-toggle="collapse" data-target="#newUsers">Collapsible</button>
+                    <button data-toggle="collapse" data-target="#newUsers" id="newBtn">Åben</button>
                 </div>
                 <div id="activeVolunteers">
                     <h2>Aktive frivillige</h2>
@@ -34,7 +34,7 @@
                         <tbody id="activeUsers" class="collapse">
                         </tbody>
                     </table>
-                    <button data-toggle="collapse" data-target="#activeUsers">Collapsible</button>
+                    <button data-toggle="collapse" data-target="#activeUsers" id="activeBtn">Åben</button>
                 </div>
                 <div id="admins">
                     <h2>Administratorer</h2>
@@ -53,7 +53,7 @@
 
                         </tbody>
                     </table>
-                    <button data-toggle="collapse" data-target="#administrator">Collapsible</button>
+                    <button data-toggle="collapse" data-target="#administrator" id="adminBtn">Åben</button>
                 </div>
             </div>
         </div>
@@ -61,23 +61,24 @@
 
         <script>
 
+
+
+
+
         var teams = [];
         $.ajax({
-            async: false,
+            async: true,
             method: "GET",
             url: "http://pba.tese.dk/api/team"
         }).done(function (obj) {
-            //console.log(obj);
-
             var i;
             for ( i = 0; i < obj.length; i++) {
-                //console.log(obj[i].title);
 
                 teams.push(obj[i]);
 
-                out = '<option>' + obj[i].title + '</option>';
+                //out = '<option>' + obj[i].title + '</option>';
 
-                $(".teamSelect").append(out);
+                //$(".teamSelect").append(out);
             }
         });
 
@@ -130,19 +131,84 @@
                 if ( countNewUsers == 0 ) {
                     $("#newVolunteers").remove();
                 }
+                  else {
+                    $("#newUsers").toggleClass('in');
+                  }
 
                 if ( countActiveUsers == 0 ) {
                     $("#activeVolunteers").remove();
                 }
+                  else if ( countNewUsers == 0) {
+                    $("#activeUsers").toggleClass('in');
+                  }
 
                 if ( countAdmins == 0 ) {
                     $("#admins").remove();
                 }
+                else if ( countNewUsers == 0 && countActiveUsers == 0 ) {
+                  $("#administrator").toggleClass('in');
+                }
             });
 
 
-              //  out += '<tr></td><td>' + obj[i].first_name + ' ' + obj[i].last_name +'</td><td>' + obj[i].mobile + '</td><td>' + obj[i].email + '</td><td>' + obj[i].dob + '</td>' + '<td><div class="form-group form-group-sm"><select class="form-control teamSelect" id="selUser'+ obj[i].id +'"</select></div></td></tr>';
 
+            // NOTE Three identical functions that check if a tablebody is open or closed and changes the button text accordingly
+            $('#adminBtn').click(function () {
+                var $this = $(this);
+                if($('#administrator').hasClass('in')){
+                    $this.text('Åben');
+                } else {
+                    $this.text('Luk');
+                }
+            });
+
+            $('#activeBtn').click(function () {
+                var $this = $(this);
+                if($('#activeUsers').hasClass('in')){
+                    $this.text('Åben');
+                } else {
+                    $this.text('Luk');
+                }
+            });
+
+            $('#newBtn').click(function () {
+              var $this = $(this);
+              if($('#newUsers').hasClass('in')){
+                  $this.text('Åben');
+              } else {
+                  $this.text('Luk');
+              }
+            });
+
+            /* NOTE Kan ikke få den her til at virke i click-funktioner
+            function openCloseBtn( btnId, divCollapse ) {
+                var btn = $(btnId);
+
+                if ( $(divCollapse).hasClass('in')) {
+                    btn.text('Åben');
+                    console.log("Hej lars");
+                } else {
+                    btn.text('Luk');
+                }
+            } */
+
+
+
+              // the function in here only runs when a ajax-call to the specified url is complete
+            $( document ).ajaxComplete(function( event, xhr, settings ) {
+                if ( settings.url === "http://pba.tese.dk/api/user" ) {
+                    if( $('#newUsers').hasClass('in') ){
+                        $('#newBtn').text('Luk');
+                    }
+                    else if ( $('#activeUsers').hasClass('in') ) {
+                        $('#activeBtn').text('Luk');
+                    }
+                    else if ( $('#administrator').hasClass('in') ) {
+                        $('#adminBtn').text('Luk');
+                    }
+
+                }
+            });
         </script>
 
 
