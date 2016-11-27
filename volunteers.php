@@ -63,7 +63,7 @@
                       <h2>Sæt valgte frivillige på et hold</h2>
                       <select class="form-control" id="team">
                       </select>
-                      <button type="button" id="saveTeamstoUsersBtn" class="btn btn-default" class="btn btn-default">Gem</button>
+                      <button type="button" id="saveTeamstoUsersBtn" class="btn btn-default">Gem</button>
                   </div>
               </div>
             </div>

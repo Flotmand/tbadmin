@@ -39,7 +39,7 @@
                       out += '<div class="row">';
                     }
 
-                    out += '<div class="col-md-6"><div class="jumbotron"><h3>' + obj[i].question + '</h3><p>' + obj[i].answer + '</p><button type="submit" class="btn btn-default">Rediger</button></div></div>';
+                    out += '<div class="col-md-6"><div class="jumbotron" id="' + obj[i].id + '"><h3>' + obj[i].question + '</h3><p>' + obj[i].answer + '</p><button type="submit" class="btn btn-default">Rediger</button></div></div>';
 
                     if ( x == 2 || jQuery.isEmptyObject(obj[i+1]) == true) {
                       out += '</div>';
