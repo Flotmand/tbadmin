@@ -224,7 +224,9 @@
 
                 });
 
-                  // TODO her gemmes hold-id'et. Kør API kaldet i denne function hvor selectedUsers gemmes sammen med hold-idet
+                  // TODO her gemmes hold-id'et.
+                  //Kør API kaldet i denne function hvor selectedUsers gemmes sammen med hold-id'et
+                  // HUSK at inaktive brugere samtidig skal sætte som aktiv når de sættes på et hold
                 $("#saveTeamstoUsersBtn").click(function() {
                     console.log($(team).val());
                 })
