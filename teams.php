@@ -75,13 +75,28 @@
                    });
 
                    $("#addEditBtn").click(function() {
-                      // TODO Data til at redigere databasen er nu klar her
-                      console.log($("#editTitle").val());
-                      console.log($("#editDescription").val());
-                      console.log($("#teamId").val());
-                        // TODO Når data er sendt til API'en skal siden genindlæses så holdene opdateres.
-                        // Kunne også gøre ved kun at opdatere dét egentlige hold, men det tager længere tid at kode.
-                      location.reload();
+                          // Hvis der ikke findes et teamId så skal der oprettes et nyt hold
+                        if ( jQuery.isEmptyObject($("#teamId").val()) ) {
+                            // TODO Data til at oprette nye hold er klar her
+                            console.log($("#editTitle").val());
+                            console.log($("#editDescription").val());
+                            console.log("Tomt id: " + $("#teamId").val());
+                              // TODO Når data er sendt til API'en skal siden genindlæses så holdene opdateres.
+                              // Kunne også gøre ved kun at opdatere dét egentlige hold, men det tager længere tid at kode.
+                            location.reload();
+                        } else {
+                            // TODO Data til at redigere databasen er nu klar her
+                            console.log($("#editTitle").val());
+                            console.log($("#editDescription").val());
+                            console.log($("#teamId").val());
+                              // TODO Når data er sendt til API'en skal siden genindlæses så holdene opdateres.
+                              // Kunne også gøre ved kun at opdatere dét egentlige hold, men det tager længere tid at kode.
+                            location.reload();
+                        }
+
+
+
+
                    });
                });
 
