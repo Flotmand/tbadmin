@@ -64,6 +64,8 @@
                       <select class="form-control" id="team">
                       </select>
                       <button type="button" id="saveTeamstoUsersBtn" class="btn btn-default">Gem</button>
+                      <button type="button" id="deactivateUsersBtn" class="btn btn-danger">Deaktiver valgte</button>
+
                   </div>
               </div>
             </div>
@@ -201,12 +203,12 @@
             });
 
 
+            // Creates an array with selected users ID's
+            var selectedUsers = [];
 
               // the functions in here only runs when a ajax-call to the specified url is complete
             $( document ).ajaxComplete(function( event, xhr, settings ) {
 
-                  // Creates an array with selected users ID's
-                var selectedUsers = new Array();
                   // When a change is registred to a checkbox the selected userId is puched to the array
                 $(":checkbox").change(function(){
                       // Check if the checkbox is checked or unchecked and either adds or removed the userId from the array
@@ -227,9 +229,7 @@
                   // TODO her gemmes hold-id'et.
                   //Kør API kaldet i denne function hvor selectedUsers gemmes sammen med hold-id'et
                   // HUSK at inaktive brugere samtidig skal sætte som aktiv når de sættes på et hold
-                $("#saveTeamstoUsersBtn").click(function() {
-                    console.log($(team).val());
-                })
+
 
 
                 if ( settings.url === "http://pba.tese.dk/api/user" ) {
@@ -244,6 +244,69 @@
                     }
 
                 }
+            });
+
+            // "Tilføj brugere til hold"-event
+
+            $("#saveTeamstoUsersBtn").on('click', function() {
+                var selectedTeam = $(team).val();
+                var dataObj = {
+                    users: selectedUsers,
+                    teamid: selectedTeam
+
+                };
+
+                console.log(dataObj);
+
+
+                
+                $.ajax({
+                    type: "POST",
+                    url: "http://pba.tese.dk/api/team/addusers",
+                    data: JSON.stringify(dataObj),
+                    dataType: "json",
+                    success: function (data, status, jqXHR) {
+                        console.log("Teams changed to ", data.teamid)
+                        location.reload();
+                    },
+
+                    error: function (jqXHR, status) {
+                        // error handler
+                        console.log(jqXHR);
+                        alert("Undskyld! Der er sket en fejl!");
+                    }
+                });
+             
+            });
+
+            // "Deaktiver brugere"-event
+
+            $("#deactivateUsersBtn").on('click', function() {
+                console.log(selectedUsers);
+                confirmTxt = "Er du sikker på at du vil deaktivere de valgte frivillige?";
+                var answer = confirm(confirmTxt);
+
+                if(answer){                  
+                    $.ajax({
+                        type: "POST",
+                        url: "http://pba.tese.dk/api/user/deactivate",
+                        data: JSON.stringify(selectedUsers),
+                        dataType: "json",
+                        success: function (data, status, jqXHR) {
+                            location.reload();
+                        },
+
+                        error: function (jqXHR, status) {
+                            // error handler
+                            console.log(jqXHR);
+                            alert("Undskyld! Der er sket en fejl!");
+                        }
+                    });
+                }
+                
+                
+                
+             
             });
 
 
