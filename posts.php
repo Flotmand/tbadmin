@@ -11,6 +11,7 @@
                             <textarea type="post" class="form-control" id="post"></textarea>
                         </div>
                         <div class="fileinput fileinput-new" data-provides="fileinput">
+                            <!-- TODO 27/11 Nåede her til og bryggede på fil-input'et -->
                             <span class="btn btn-default btn-file"><span>Vælg fil</span><input type="image" /></span>
                             <span class="fileinput-filename"></span><span class="fileinput-new">No file chosen</span>
                         </div>

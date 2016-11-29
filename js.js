@@ -20,19 +20,3 @@ function getCookie(cname) {
     }
     return "";
 }
-
-
-function getTeams(){
-    var teams;
-
-    $.ajax({
-          async: false,
-          method: "GET",
-          url: 'http://pba.tese.dk/api/team',
-          success: function(result) {
-              teams = result;
-          }
-    });
-
-    return teams;
-}
